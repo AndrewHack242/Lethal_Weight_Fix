@@ -91,12 +91,5 @@ namespace Lethal_Weight_Fix.Patches
             return deliver_patch(instructions, "DestroyItemInSlot");
         }
 
-        [HarmonyPatch("BeginGrabObject")]
-        [HarmonyPostfix]
-        static void patch_BeginGrabObject_postfix(ref GrabbableObject ___currentlyGrabbingObject)
-        {
-            Lethal_weight_fix_base.LogDebug("object weight = " + ___currentlyGrabbingObject.itemProperties.weight);
-        }
-
     }
 }
