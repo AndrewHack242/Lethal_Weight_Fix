@@ -48,7 +48,6 @@ namespace Lethal_Weight_Fix.Patches
             return deliver_patch(instructions, "BeginGrabObject");
         }
 
-        // maybe not needed? - was like this before? but it probably shouldn't be
         [HarmonyPatch("GrabObject")]
         [HarmonyTranspiler]
         static IEnumerable<CodeInstruction> patch_GrabObject(IEnumerable<CodeInstruction> instructions)
@@ -89,6 +88,43 @@ namespace Lethal_Weight_Fix.Patches
         static IEnumerable<CodeInstruction> patch_DestroyItemInSlot(IEnumerable<CodeInstruction> instructions)
         {
             return deliver_patch(instructions, "DestroyItemInSlot");
+        }
+
+        static void enforce_miunimum_weight(ref float ___carryWeight, string func)
+        {
+            if (___carryWeight < 1f)
+            {
+                Lethal_weight_fix_base.LogWarning("Carry Weight went below 1 {" + ___carryWeight + "}. This should not happen. Resetting weight to 1. function: " + func);
+                ___carryWeight = 1f;
+            }
+        }
+
+        [HarmonyPatch("DespawnHeldObjectOnClient")]
+        [HarmonyPostfix]
+        static void patch_DespawnHeldObjectOnClient_postfix(ref float ___carryWeight)
+        {
+            enforce_miunimum_weight(ref ___carryWeight, "DespawnHeldObjectOnClient");
+        }
+
+        [HarmonyPatch("SetObjectAsNoLongerHeld")]
+        [HarmonyPostfix]
+        static void patch_SetObjectAsNoLongerHeld_postfix(ref float ___carryWeight)
+        {
+            enforce_miunimum_weight(ref ___carryWeight, "SetObjectAsNoLongerHeld");
+        }
+
+        [HarmonyPatch("PlaceGrabbableObject")]
+        [HarmonyPostfix]
+        static void patch_PlaceGrabbableObject_postfix(ref float ___carryWeight)
+        {
+            enforce_miunimum_weight(ref ___carryWeight, "PlaceGrabbableObject");
+        }
+
+        [HarmonyPatch("DestroyItemInSlot")]
+        [HarmonyPostfix]
+        static void patch_DestroyItemInSlot_postfix(ref float ___carryWeight)
+        {
+            enforce_miunimum_weight(ref ___carryWeight, "DestroyItemInSlot");
         }
 
     }
