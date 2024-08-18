@@ -14,7 +14,7 @@ namespace Lethal_Weight_Fix
     {
         private const string mod_GUID = "Hackattack242.Lethal_Weight_Fix";
         private const string mod_name = "Lethal_Weight_Fix";
-        private const string mod_version = "1.1.0";
+        private const string mod_version = "1.1.1";
 
         private readonly Harmony harmony = new Harmony(mod_GUID);
 

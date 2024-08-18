@@ -22,18 +22,18 @@ namespace Lethal_Weight_Fix.Patches
             {
                 if (codes[i].Calls(typeof(UnityEngine.Mathf).GetMethod("Clamp", new Type[] { typeof(float), typeof(float), typeof(float) })))
                 {
-                    Lethal_weight_fix_base.LogInfo("Found " + codes[i] + "in function " + func_name);
+                    //Lethal_weight_fix_base.LogInfo("Found " + codes[i] + "in function " + func_name);
                     if (i < 3)
                     {
-                        Lethal_weight_fix_base.LogInfo("index was too small on match in " + codes[i] + "in function " + func_name + ", index: " + i);
+                        Lethal_weight_fix_base.LogWarning("index was too small on match in " + codes[i] + "in function " + func_name + ", index: " + i);
                         continue;
                     }
                     codes.Insert(i + 1, codes[i - 3]);
-                    Lethal_weight_fix_base.LogInfo("opcode = " + codes[i - 2].opcode);
-                    Lethal_weight_fix_base.LogInfo("operand = " + codes[i - 2].operand);
+                    //Lethal_weight_fix_base.LogInfo("opcode = " + codes[i - 2].opcode);
+                    //Lethal_weight_fix_base.LogInfo("operand = " + codes[i - 2].operand);
                     codes[i - 2].operand = 0f;
-                    Lethal_weight_fix_base.LogInfo("updated opcode = " + codes[i - 2].opcode);
-                    Lethal_weight_fix_base.LogInfo("updated operand = " + codes[i - 2].operand);
+                    //Lethal_weight_fix_base.LogInfo("updated opcode = " + codes[i - 2].opcode);
+                    //Lethal_weight_fix_base.LogInfo("updated operand = " + codes[i - 2].operand);
                     codes.RemoveAt(i - 3);
                     Lethal_weight_fix_base.LogInfo("Patched function " + func_name);
                 }
